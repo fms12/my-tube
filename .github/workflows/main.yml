@@ -1,47 +1,33 @@
-name: Firebase CI
-
+name: Firebase Deployment
 on:
   push:
-    branches: master
+    branches:
+      -main
 
 jobs:
-  build:
+    deploy:
+      name: 'Build & Deployment':
+      runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
+      steps:
+        - name: get
+          uses: actions/checkout@v3
 
-    strategy:
-      matrix:
-        node-version: [15.x]
+        - name: install node
+          uses: actions/setup-node@v3
+          with:
+              node-version: 
+        - name: install node packages
+          run: npm i
 
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js version ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    
-    - run: npm i
-    - run: npm run build
-    - name: Archive Build
-      uses: actions/upload-artifact@v3
-      with:
-        name: build
-        path: build
+        - name: Build
+          run : npm run build
+          env:
+            CI: false
 
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Download Build
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-          path: build
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only hosting
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        - name: Deploy to Firebase Hosting
+          uses: w9jds/firebase-action@v12.4.0
+          with:
+              args: deploy --only hosting
+          env: 
+              FIREBASE_TOKEN: $({secrets.FIREBASE_TOKEN})
