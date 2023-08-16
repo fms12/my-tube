@@ -1,6 +1,5 @@
 name : Firebase Deployment
 
-
 on:
   push:
     branches:
@@ -13,10 +12,10 @@ jobs:
 
     steps:
       - name : get the source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name : install node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
             node-version: '18'
 
@@ -30,6 +29,8 @@ jobs:
       
       - name : Deploy to Firebase
         uses: w9jds/firebase-action@master
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.2
         with:
           args: deploy --only hosting
         env:
