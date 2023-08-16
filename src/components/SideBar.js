@@ -21,7 +21,7 @@ function SideBar() {
   return (
     <div className="flex-[0.1] py-4 mt-14 bg-[#0f0f0f] sticky max-md:flex-[0]">
       <div className="w-[200px] max-sm:max-w-[2rem]">
-        <Link to={`/`}>
+        <Link to={"/"}>
         <SidebarRow selected Icons={HomeIcon} title="Home" />
         </Link>
         <SidebarRow Icons={WhatshotIcon} title="Trending" />
