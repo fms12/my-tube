@@ -1,4 +1,4 @@
-name : Firebase Deployment
+name : vercel Deployment
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
         env:
           CI: false
       
-      - name : Deploy to Firebase
+      - name : Deploy to Vercel
         uses: w9jds/firebase-action@master
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
